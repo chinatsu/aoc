@@ -5,17 +5,13 @@ pub fn fuel_needed_for(mass: i32) -> i32 {
     ((mass as f64 / 3.0).floor() - 2.0) as i32
 }
 
-pub fn recursive_fuel_needed_for(mut mass: i32) -> i32 {
-    let mut sum = 0i32;
-    loop {
-        mass = fuel_needed_for(mass);
-        if mass > 0 {
-            sum += mass;
-        } else {
-            break;
-        }
+pub fn recursive_fuel_needed_for(mass: i32) -> i32 {
+    fn iter(mass: i32, sum: i32) -> i32 {
+        let fuel = fuel_needed_for(mass);
+        if fuel <= 0 { sum }
+        else { iter(fuel, sum + fuel) }
     }
-    sum
+    iter(mass, 0)
 }
 
 pub fn part_1() -> io::Result<i32> {
