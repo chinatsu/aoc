@@ -1,10 +1,18 @@
-use std::fs::File;
-use std::io::{self, prelude::*, BufReader, Lines};
+#[macro_export]
+macro_rules! lines_from {
+    ($filename:expr) => {
+        {
+            use std::io::BufRead;
+            let file = std::fs::File::open(format!("resources/{}.txt", $filename)).unwrap();
+            let reader = std::io::BufReader::new(file);
+            reader.lines()
+        }
+    }
+}
 
-type LineResult = io::Result<Lines<BufReader<File>>>;
-
-pub fn get_lines_from(filename: &str) -> LineResult {
-    let file = File::open(filename)?;
-    let reader = BufReader::new(file);
-    Ok(reader.lines())
+#[macro_export]
+macro_rules! csv_from {
+    ($filename:expr) => {
+        std::fs::read_to_string(format!("resources/{}.txt", $filename)).unwrap().split(",")
+    }
 }
