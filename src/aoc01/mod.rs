@@ -5,8 +5,8 @@ pub fn fuel_for(mass: i32) -> i32 {
 pub fn recursive_fuel_for(mass: i32) -> i32 {
     fn iter(mass: i32, sum: i32) -> i32 {
         let fuel = fuel_for(mass);
-        if fuel <= 0 { sum }
-        else { iter(fuel, sum + fuel) }
+        if fuel > 0 { iter(fuel, sum + fuel) }
+        else { sum }
     }
     iter(mass, 0)
 }
